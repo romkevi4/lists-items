@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import AppLeftBlock from './components/AppLeftBlock.vue'
-  import AppRightBlock from './components/AppRightBlock.vue'
+  import LeftBlock from './components/LeftBlock.vue'
+  import RightBlock from './components/RightBlock.vue'
 </script>
 
 <template>
   <div class="container">
-    <app-left-block />
-    <app-right-block />
+    <left-block />
+    <right-block />
   </div>
 </template>
 
@@ -16,8 +16,6 @@
     padding: 3rem;
     width: 85%;
     height: 85%;
-    border: 1px solid #000;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
