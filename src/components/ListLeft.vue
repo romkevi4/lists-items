@@ -1,9 +1,21 @@
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, defineProps } from 'vue'
+
+  import ItemLeft from '@/components/ItemLeft.vue'
+
+  import { MIN_ITEM, MAX_ITEM } from '@/utils/constants'
+  import { setNumberOfItems } from '@/utils/initialData'
 
   import iconArrow from '@/assets/icons/icon-arrow-right.svg'
 
+  interface PropsListLeft {
+    listNumber: number
+  }
+
+  defineProps<PropsListLeft>()
+
   const isOpen = ref<boolean>(false)
+  const itemsNumber = setNumberOfItems(MIN_ITEM, MAX_ITEM)
 
   const toggleAccordion = () => isOpen.value = !isOpen.value
 
@@ -20,21 +32,15 @@
         :class="{'list-left__icon-arrow_position_down' : isOpen}"
       >
       <input type="checkbox" class="list-left__input-checkbox">
-      <h3 class="list-left__title">List 1</h3>
+      <h3 class="list-left__title">{{ `List ${listNumber}` }}</h3>
     </div>
 
     <div v-if="isOpen" class="list-left__items">
-      <div class="list-left__item">
-        <div class="list-left__box">
-          <input type="checkbox" class="list-left__input-checkbox">
-          <p class="list-left__item-name">Item 1</p>
-        </div>
-
-        <div class="list-left__box">
-          <input type="text" placeholder="10" class="list-left__input-number">
-          <input type="color" class="list-left__input-color">
-        </div>
-      </div>
+      <item-left
+        v-for="index in itemsNumber"
+        :key="index"
+        :itemNumber="index"
+      />
     </div>
   </div>
 </template>
@@ -54,6 +60,7 @@
     display: flex;
     align-items: center;
     justify-content: start;
+    transition: background-color .2s;
   }
 
   .list-left__header:hover {
@@ -105,55 +112,11 @@
   }
 
   .list-left__items {
-    padding-left: 3rem;
+    padding: .5rem 0 0 3rem;
     width: 80%;
     display: flex;
-  }
-
-  .list-left__item {
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .list-left__box {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-  }
-
-  .list-left__item-name {
-    margin: 0;
-  }
-
-  .list-left__input-number {
-    margin-right: .5rem;
-    padding: 0;
-    width: 1rem;
-    height: 1rem;
-    border: none;
-    background-color: transparent;
-  }
-
-  .list-left__input-color {
-    padding: 0;
-    width: 1rem;
-    height: 1rem;
-    appearance: none;
-    border: none;
-    background-color: transparent;
-  }
-
-  .list-left__input-color::-webkit-color-swatch-wrapper {
-    padding: 0;
-    width: 1rem;
-    height: 1rem;
-    border: none;
-  }
-
-  .list-left__input-color::-webkit-color-swatch {
-    border: none;
+    flex-direction: column;
+    align-items: start;
   }
 
   .list-left:hover,

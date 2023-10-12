@@ -1,10 +1,15 @@
 <script setup lang="ts">
   import ListLeft from './ListLeft.vue'
+  import { AMOUNT_OF_LISTS } from '@/utils/constants'
 </script>
 
 <template>
   <div class="left-block">
-    <list-left />
+    <list-left
+      v-for="index in AMOUNT_OF_LISTS"
+      :key="index"
+      :listNumber="index"
+    />
   </div>
 </template>
 

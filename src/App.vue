@@ -15,7 +15,7 @@
     margin: auto;
     padding: 3rem;
     width: 85%;
-    height: 85%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
