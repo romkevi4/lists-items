@@ -1,4 +1,5 @@
-<script>
+<script setup lang="ts">
+  import ItemRight from '@/components/ItemRight.vue'
 
 </script>
 
@@ -9,7 +10,9 @@
       <button type="button" class="list-right__btn-sort">Перемешать</button>
     </div>
 
-
+    <div class="list-right__items">
+      <item-right />
+    </div>
   </div>
 </template>
 

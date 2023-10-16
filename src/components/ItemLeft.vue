@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { defineProps } from 'vue'
+import { ref, defineProps, onMounted } from 'vue'
 
   import { setRandomColorOfItem } from '@/utils/initialData'
 
@@ -8,6 +8,12 @@
   }
 
   defineProps<PropsItemLeft>()
+
+  const randomColor = ref<string>('#000')
+
+  onMounted(() => {
+    randomColor.value = setRandomColorOfItem()
+  })
 </script>
 
 <template>
@@ -19,7 +25,7 @@
 
     <div class="item-left__box">
       <input type="text" placeholder="10" class="item-left__input-number">
-      <input type="color" class="item-left__input-color" :value="setRandomColorOfItem()">
+      <input type="color" class="item-left__input-color" :value="randomColor">
     </div>
   </div>
 </template>

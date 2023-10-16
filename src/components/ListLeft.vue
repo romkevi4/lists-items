@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, defineProps } from 'vue'
+  import { ref, defineProps, onMounted } from 'vue'
 
   import ItemLeft from '@/components/ItemLeft.vue'
 
@@ -15,9 +15,13 @@
   defineProps<PropsListLeft>()
 
   const isOpen = ref<boolean>(false)
-  const itemsNumber = setNumberOfItems(MIN_ITEM, MAX_ITEM)
+  const itemsNumber = ref<number | null>(null)
 
   const toggleAccordion = () => isOpen.value = !isOpen.value
+
+  onMounted(() => {
+      itemsNumber.value = setNumberOfItems(MIN_ITEM, MAX_ITEM)
+  })
 
 </script>
 
@@ -29,7 +33,7 @@
         :src="iconArrow"
         alt="icon-arrow"
         class="list-left__icon-arrow"
-        :class="{'list-left__icon-arrow_position_down' : isOpen}"
+        :class="{'list-left__icon-arrow_position_down': isOpen}"
       >
       <input type="checkbox" class="list-left__input-checkbox">
       <h3 class="list-left__title">{{ `List ${listNumber}` }}</h3>

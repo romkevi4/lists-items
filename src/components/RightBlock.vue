@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import ListRight from './ListRight.vue'
+  import ListRight from '@/components/ItemRight.vue'
 </script>
 
 <template>
