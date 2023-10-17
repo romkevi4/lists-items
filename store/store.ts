@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia'
+import { IList } from '../models'
 
 export const useGlobalStore = defineStore('store', {
   state: () => ({
-    lists: [],
-    items: []
+    currentLists: [] as IList[],
   }),
   actions: {
-
+    setCurrentLists(data: IList[]) {
+      this.currentLists = data
+    }
   }
 })

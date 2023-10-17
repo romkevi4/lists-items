@@ -1,31 +1,24 @@
 <script setup lang="ts">
-import { ref, defineProps, onMounted } from 'vue'
-
-  import { setRandomColorOfItem } from '@/utils/initialData'
+  import { defineProps } from 'vue'
+  import { IItem } from '../../models'
 
   interface PropsItemLeft {
-    itemNumber: number
+    item: IItem
   }
 
   defineProps<PropsItemLeft>()
-
-  const randomColor = ref<string>('#000')
-
-  onMounted(() => {
-    randomColor.value = setRandomColorOfItem()
-  })
 </script>
 
 <template>
   <div class="item-left">
     <div class="item-left__box">
       <input type="checkbox" class="item-left__input-checkbox">
-      <p class="item-left__name">{{ `Item ${itemNumber}` }}</p>
+      <p class="item-left__name">{{ item.name }}</p>
     </div>
 
     <div class="item-left__box">
-      <input type="text" placeholder="10" class="item-left__input-number">
-      <input type="color" class="item-left__input-color" :value="randomColor">
+      <input type="text" placeholder="--" class="item-left__input-number" :value="item.amount">
+      <input type="color" class="item-left__input-color" :value="item.color">
     </div>
   </div>
 </template>

@@ -1,28 +1,19 @@
 <script setup lang="ts">
-  import { ref, defineProps, onMounted } from 'vue'
+  import { ref, defineProps } from 'vue'
 
   import ItemLeft from '@/components/ItemLeft.vue'
-
-  import { MIN_ITEM, MAX_ITEM } from '@/utils/constants'
-  import { setNumberOfItems } from '@/utils/initialData'
+  import { IList } from '../../models'
 
   import iconArrow from '@/assets/icons/icon-arrow-right.svg'
 
   interface PropsListLeft {
-    listNumber: number
+    list: IList
   }
 
   defineProps<PropsListLeft>()
 
   const isOpen = ref<boolean>(false)
-  const itemsNumber = ref<number | null>(null)
-
   const toggleAccordion = () => isOpen.value = !isOpen.value
-
-  onMounted(() => {
-      itemsNumber.value = setNumberOfItems(MIN_ITEM, MAX_ITEM)
-  })
-
 </script>
 
 <template>
@@ -36,14 +27,14 @@
         :class="{'list-left__icon-arrow_position_down': isOpen}"
       >
       <input type="checkbox" class="list-left__input-checkbox">
-      <h3 class="list-left__title">{{ `List ${listNumber}` }}</h3>
+      <h3 class="list-left__title">{{ list.name }}</h3>
     </div>
 
     <div v-if="isOpen" class="list-left__items">
       <item-left
-        v-for="index in itemsNumber"
+        v-for="(item, index) in list.items"
         :key="index"
-        :itemNumber="index"
+        :item="item"
       />
     </div>
   </div>

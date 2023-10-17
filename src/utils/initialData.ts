@@ -1,11 +1,18 @@
 import { IList } from '../../models'
-import { AMOUNT_OF_LISTS, COLOR_HEX_LENGTH, MIN_ITEM, MAX_ITEM } from '@/utils/constants'
+import {
+  AMOUNT_OF_LISTS,
+  COLOR_HEX_LENGTH,
+  MIN_ITEM,
+  MAX_ITEM,
+  MIN_AMOUNT_OF_ITEM,
+  MAX_AMOUNT_OF_ITEM
+} from '@/utils/constants'
 
-export function setNumberOfItems(min: number, max: number): number {
+function setRandomElement(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function setRandomColorOfItem(): string {
+function setRandomColorOfItem(): string {
   const symbols = '0123456789ABCDEF'
   let color = '#'
 
@@ -31,14 +38,15 @@ export function setDataOfLists(): IList[] {
   }
 
   lists.forEach((list: IList) => {
-    const randomItemsAmount: number = setNumberOfItems(MIN_ITEM, MAX_ITEM)
+    const randomItemsAmount: number = setRandomElement(MIN_ITEM, MAX_ITEM)
 
     for (let y = 1; y <= randomItemsAmount; y++) {
       const randomColor = setRandomColorOfItem()
+      const randomAmountOfItem = setRandomElement(MIN_AMOUNT_OF_ITEM, MAX_AMOUNT_OF_ITEM)
 
       const dataOfItem = {
         name: `Item ${y}`,
-        amount: 10,
+        amount: randomAmountOfItem,
         color: randomColor,
         active: false
       }
@@ -49,19 +57,3 @@ export function setDataOfLists(): IList[] {
 
   return lists
 }
-
-export const Lists: IList[] = [
-  {
-    name: 'List 1',
-    items: [
-      {
-        name: 'Item 1',
-        amount: 0,
-        color: '',
-        active: false
-      }
-    ],
-    active: false
-
-  }
-]
