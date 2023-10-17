@@ -12,5 +12,6 @@ interface IList {
 }
 
 export type {
-  IList
+  IList,
+  IItem,
 }
