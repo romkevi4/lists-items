@@ -1,18 +1,8 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
   import { useGlobalStore } from '../../store/store'
-
   import ListLeft from './ListLeft.vue'
 
-  import { setDataOfLists } from '@/utils/initialData'
-  import { IList } from '../../models'
-
   const store = useGlobalStore()
-  const lists = ref<IList[]>(setDataOfLists())
-
-  onMounted(() => {
-    store.setCurrentLists(lists.value)
-  })
 </script>
 
 <template>

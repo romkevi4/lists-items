@@ -17,8 +17,17 @@
     </div>
 
     <div class="item-left__box">
-      <input type="text" placeholder="--" class="item-left__input-number" :value="item.amount">
-      <input type="color" class="item-left__input-color" :value="item.color">
+      <input
+        type="text"
+        placeholder="--"
+        :value="item.amount"
+        class="item-left__input-number"
+      >
+      <input
+        type="color"
+        :value="item.color"
+        class="item-left__input-color"
+      >
     </div>
   </div>
 </template>

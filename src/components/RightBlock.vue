@@ -1,10 +1,17 @@
 <script setup lang="ts">
-  import ListRight from '@/components/ItemRight.vue'
+  import { useGlobalStore } from '../../store/store'
+  import ListRight from '@/components/ListRight.vue'
+
+  const store = useGlobalStore()
 </script>
 
 <template>
   <div class="right-block">
-    <list-right />
+    <list-right
+      v-for="(list, index) in store.currentLists"
+      :key="index"
+      :list="list"
+    />
   </div>
 </template>
 
