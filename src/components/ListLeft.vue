@@ -2,6 +2,8 @@
   import { ref, defineProps } from 'vue'
 
   import ItemLeft from '@/components/ItemLeft.vue'
+
+  import { useGlobalStore } from '../../store/store'
   import { IList } from '../../models'
 
   import iconArrow from '@/assets/icons/icon-arrow-right.svg'
@@ -10,10 +12,15 @@
     list: IList
   }
 
-  defineProps<PropsListLeft>()
+  const store = useGlobalStore()
+  const props = defineProps<PropsListLeft>()
 
-  const isOpen = ref<boolean>(false)
-  const toggleAccordion = () => isOpen.value = !isOpen.value
+  const isOpen = ref<boolean>(props.list.active)
+  const toggleAccordion = () => {
+    isOpen.value = !isOpen.value
+    store.setOpenOfList(isOpen.value, props.list.name)
+  }
+
 </script>
 
 <template>
@@ -24,7 +31,7 @@
         :src="iconArrow"
         alt="icon-arrow"
         class="list-left__icon-arrow"
-        :class="{'list-left__icon-arrow_position_down': isOpen}"
+        :class="{'list-left__icon-arrow_position_down': list.active}"
       >
       <input type="checkbox" class="list-left__input-checkbox">
       <h3 class="list-left__title">{{ list.name }}</h3>

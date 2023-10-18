@@ -2,17 +2,20 @@
   import { defineProps } from 'vue'
 
   import ItemRight from '@/components/ItemRight.vue'
+
+  // import { useGlobalStore } from '../../store/store'
   import { IList } from '../../models'
 
   interface PropsListRight {
     list: IList
   }
 
+  // const store = useGlobalStore()
   defineProps<PropsListRight>()
 </script>
 
 <template>
-  <div class="list-right">
+  <div v-if="list.active" class="list-right">
     <div class="list-right__box">
       <h3 class="list-right__title">{{ list.name }}</h3>
       <button type="button" class="list-right__btn-sort">Перемешать</button>
@@ -26,6 +29,12 @@
       />
     </div>
   </div>
+
+  <div v-else class="list-right">
+    <div class="list-right__box">
+      <h3 class="list-right__title">{{ list.name }}</h3>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -35,6 +44,10 @@
     width: 100%;
     border: 1px solid gray;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
   }
 
   .list-right:last-of-type {
@@ -42,8 +55,9 @@
   }
 
   .list-right__box {
-    margin-bottom: .5rem;
+    margin: 0;
     width: 100%;
+    min-height: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -73,6 +87,7 @@
   }
 
   .list-right__items {
+    margin-top: .5rem;
     width: 100%;
   }
 

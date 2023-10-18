@@ -10,8 +10,8 @@ export const useGlobalStore = defineStore('store', {
     setCurrentLists(data: IList[]) {
       this.currentLists = data
     },
-    onOpen() {
-      this.isOpenList = !this.isOpenList
-    }
+    setOpenOfList(isOpen: boolean, currentListName: string) {
+      this.currentLists.map((list) => list.name === currentListName && (list.active = isOpen))
+    },
   }
 })
