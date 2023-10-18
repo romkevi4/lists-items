@@ -1,16 +1,20 @@
 <script setup lang="ts">
-  import { defineProps } from 'vue'
+  import { ref, defineProps, defineEmits } from 'vue'
 
   import { useGlobalStore } from '../../store/store'
   import { IItem, IList } from '../../models'
 
   interface PropsItemLeft {
     item: IItem,
-    list: IList
+    list: IList,
+    isFullList: boolean
   }
 
   const store = useGlobalStore()
   const props = defineProps<PropsItemLeft>()
+  const emits = defineEmits(['is-full'])
+
+  const isInputItemActive = ref<boolean>(props.item.active)
 
   function handleInputAmount(evt: Event) {
     const inputElement = evt.target as HTMLInputElement
@@ -21,6 +25,12 @@
     const inputElement = evt.target as HTMLInputElement
     store.setColorOfItem(inputElement.value, props.list.name, props.item.name)
   }
+
+  function handleInputItemChecked() {
+    isInputItemActive.value = !isInputItemActive.value
+    store.toggleItemCheckbox(isInputItemActive.value, props.list.name, props.item.name)
+    emits('is-full', !props.isFullList)
+  }
 </script>
 
 <template>
@@ -29,6 +39,7 @@
       <input
         type="checkbox"
         :checked="item.active"
+        @input="handleInputItemChecked"
         class="item-left__input-checkbox"
       >
       <p class="item-left__name">{{ item.name }}</p>

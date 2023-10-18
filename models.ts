@@ -9,7 +9,8 @@ interface IList {
   name: string,
   items: IItem[],
   active: boolean,
-  opened: boolean
+  opened: boolean,
+  full: boolean | null
 }
 
 export type {

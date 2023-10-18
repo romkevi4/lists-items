@@ -47,8 +47,14 @@ export const useGlobalStore = defineStore('store', {
         }
       })
     },
-    // toggleItemCheckbox(currentValue: boolean, currentListName: string) {
-    //
-    // }
+    toggleItemCheckbox(currentValue: boolean, currentListName: string, currentItemName: string) {
+      this.currentLists.map((list) => {
+        if (list.name === currentListName) {
+          list.items.map((item) => {
+            item.name === currentItemName && (item.active = currentValue)
+          })
+        }
+      })
+    }
   }
 })

@@ -17,15 +17,20 @@
 
   const isOpen = ref<boolean>(props.list.opened)
   const isInputListActive = ref<boolean>(props.list.active)
+  const isFullList = ref<boolean | null>(props.list.full)
 
   const toggleAccordion = () => {
     isOpen.value = !isOpen.value
     store.setOpenOfList(isOpen.value, props.list.name)
   }
 
-  function handleInputList() {
+  function handleInputListChecked() {
     isInputListActive.value = !isInputListActive.value
     store.toggleListCheckbox(isInputListActive.value, props.list.name)
+  }
+
+  function handle(value: boolean) {
+    isFullList.value = value
   }
 </script>
 
@@ -43,7 +48,7 @@
       <input
         type="checkbox"
         :checked="list.active"
-        @input="handleInputList"
+        @input="handleInputListChecked"
         class="list-left__input-checkbox"
       >
       <h3 class="list-left__title">{{ list.name }}</h3>
@@ -55,6 +60,8 @@
         :key="index"
         :item="item"
         :list="list"
+        :isFullList="isFullList"
+        @is-full="handle"
       />
     </div>
   </div>
@@ -114,6 +121,10 @@
 
   .list-left__input-checkbox:checked::before {
     content: '\2713';
+  }
+
+  .list-left__input-checkbox_type_point:checked::before {
+    content: '\2022';
   }
 
   .list-left__input-checkbox:hover {
