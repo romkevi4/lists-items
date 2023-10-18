@@ -1,12 +1,20 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
-  import { IItem } from '../../models'
+
+  import { useGlobalStore } from '../../store/store'
+  import { IItem, IList } from '../../models'
 
   interface PropsItemRight {
-    item: IItem
+    item: IItem,
+    list: IList
   }
 
-  defineProps<PropsItemRight>()
+  const store = useGlobalStore()
+  const props = defineProps<PropsItemRight>()
+
+  function changeAmountOfItem() {
+    store.setAmountOfRightItem(props.list.name, props.item.name)
+  }
 </script>
 
 <template>
@@ -14,8 +22,9 @@
     <div
       v-for="index in item.amount"
       :key="index"
-      class="item-right__element"
-      :style="{backgroundColor: item.color}">
+      :style="{backgroundColor: item.color}"
+      @click="changeAmountOfItem()"
+      class="item-right__element">
     </div>
   </div>
 </template>
@@ -44,5 +53,9 @@
 
   .item-right__element:last-of-type {
     margin-right: 0;
+  }
+
+  .item-right__element:hover {
+    cursor: pointer;
   }
 </style>

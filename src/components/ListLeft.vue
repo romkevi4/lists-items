@@ -15,12 +15,18 @@
   const store = useGlobalStore()
   const props = defineProps<PropsListLeft>()
 
-  const isOpen = ref<boolean>(props.list.active)
+  const isOpen = ref<boolean>(props.list.opened)
+  const isInputListActive = ref<boolean>(props.list.active)
+
   const toggleAccordion = () => {
     isOpen.value = !isOpen.value
     store.setOpenOfList(isOpen.value, props.list.name)
   }
 
+  function handleInputList() {
+    isInputListActive.value = !isInputListActive.value
+    store.toggleListCheckbox(isInputListActive.value, props.list.name)
+  }
 </script>
 
 <template>
@@ -31,9 +37,15 @@
         :src="iconArrow"
         alt="icon-arrow"
         class="list-left__icon-arrow"
-        :class="{'list-left__icon-arrow_position_down': list.active}"
+        :class="{'list-left__icon-arrow_position_down': list.opened}"
       >
-      <input type="checkbox" class="list-left__input-checkbox">
+
+      <input
+        type="checkbox"
+        :checked="list.active"
+        @input="handleInputList"
+        class="list-left__input-checkbox"
+      >
       <h3 class="list-left__title">{{ list.name }}</h3>
     </div>
 
@@ -42,6 +54,7 @@
         v-for="(item, index) in list.items"
         :key="index"
         :item="item"
+        :list="list"
       />
     </div>
   </div>

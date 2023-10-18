@@ -1,18 +1,36 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
-  import { IItem } from '../../models'
+
+  import { useGlobalStore } from '../../store/store'
+  import { IItem, IList } from '../../models'
 
   interface PropsItemLeft {
-    item: IItem
+    item: IItem,
+    list: IList
   }
 
-  defineProps<PropsItemLeft>()
+  const store = useGlobalStore()
+  const props = defineProps<PropsItemLeft>()
+
+  function handleInputAmount(evt: Event) {
+    const inputElement = evt.target as HTMLInputElement
+    store.setAmountOfLeftItem(+inputElement.value, props.list.name, props.item.name)
+  }
+
+  function handleInputColor(evt: Event) {
+    const inputElement = evt.target as HTMLInputElement
+    store.setColorOfItem(inputElement.value, props.list.name, props.item.name)
+  }
 </script>
 
 <template>
   <div class="item-left">
     <div class="item-left__box">
-      <input type="checkbox" class="item-left__input-checkbox">
+      <input
+        type="checkbox"
+        :checked="item.active"
+        class="item-left__input-checkbox"
+      >
       <p class="item-left__name">{{ item.name }}</p>
     </div>
 
@@ -21,11 +39,13 @@
         type="text"
         placeholder="--"
         :value="item.amount"
+        @input="handleInputAmount"
         class="item-left__input-number"
       >
       <input
         type="color"
         :value="item.color"
+        @input="handleInputColor"
         class="item-left__input-color"
       >
     </div>

@@ -31,7 +31,8 @@ export function setDataOfLists(): IList[] {
     const dataOfLists = {
       name: `List ${i}`,
       items: [],
-      active: false
+      active: false,
+      opened: false
     }
 
     lists.push(dataOfLists)

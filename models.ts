@@ -2,13 +2,14 @@ interface IItem {
   name: string,
   amount: number,
   color: string,
-  active: boolean
+  active: boolean,
 }
 
 interface IList {
   name: string,
   items: IItem[],
-  active: boolean
+  active: boolean,
+  opened: boolean
 }
 
 export type {
