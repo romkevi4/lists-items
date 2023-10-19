@@ -3,8 +3,7 @@ import { IList } from '../models'
 
 export const useGlobalStore = defineStore('store', {
   state: () => ({
-    currentLists: [] as IList[],
-    isOpenList: false as boolean,
+    currentLists: [] as IList[]
   }),
   actions: {
     setCurrentLists(data: IList[]) {
@@ -34,27 +33,41 @@ export const useGlobalStore = defineStore('store', {
         })
       })
     },
-    toggleListCheckbox(currentValue: boolean, currentListName: string) {
+    toggleListCheckbox(currentListName: string) {
       this.currentLists.map((list) => {
         if (list.name === currentListName) {
-          list.active = currentValue
-          console.log(list.active)
+          list.active = !list.active
 
           list.items.map((item) => {
-            item.active = currentValue
-            console.log(item.active)
+            item.active = !item.active
           })
         }
       })
     },
-    toggleItemCheckbox(currentValue: boolean, currentListName: string, currentItemName: string) {
+    toggleItemCheckbox(currentListName: string, currentItemName: string) {
       this.currentLists.map((list) => {
         if (list.name === currentListName) {
           list.items.map((item) => {
-            item.name === currentItemName && (item.active = currentValue)
+            item.name === currentItemName && (item.active = !item.active)
           })
         }
       })
-    }
+    },
+    toggleActiveList(currentListName: string) {
+      this.currentLists.map((list) => {
+        if (list.name === currentListName) {
+          list.active = !list.active
+        }
+      })
+    },
+    toggleActiveItems(currentListName: string) {
+      this.currentLists.map((list) => {
+        if (list.name === currentListName) {
+          list.items.map((item) => {
+            !item.active && (item.active = true)
+          })
+        }
+      })
+    },
   }
 })

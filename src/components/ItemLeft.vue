@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, defineProps, defineEmits } from 'vue'
+  import { defineProps, defineEmits } from 'vue'
 
   import { useGlobalStore } from '../../store/store'
   import { IItem, IList } from '../../models'
@@ -7,14 +7,12 @@
   interface PropsItemLeft {
     item: IItem,
     list: IList,
-    isFullList: boolean
+    isFullList: boolean | null
   }
 
   const store = useGlobalStore()
   const props = defineProps<PropsItemLeft>()
-  const emits = defineEmits(['is-full'])
-
-  const isInputItemActive = ref<boolean>(props.item.active)
+  const emits = defineEmits(['check-list-items'])
 
   function handleInputAmount(evt: Event) {
     const inputElement = evt.target as HTMLInputElement
@@ -27,9 +25,14 @@
   }
 
   function handleInputItemChecked() {
-    isInputItemActive.value = !isInputItemActive.value
-    store.toggleItemCheckbox(isInputItemActive.value, props.list.name, props.item.name)
-    emits('is-full', !props.isFullList)
+    if (props.list.active) {
+      store.toggleItemCheckbox(props.list.name, props.item.name)
+      emits('check-list-items')
+    } else {
+      store.toggleActiveList(props.list.name)
+      store.toggleItemCheckbox(props.list.name, props.item.name)
+      emits('check-list-items')
+    }
   }
 </script>
 

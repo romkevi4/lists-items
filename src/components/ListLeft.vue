@@ -16,21 +16,49 @@
   const props = defineProps<PropsListLeft>()
 
   const isOpen = ref<boolean>(props.list.opened)
-  const isInputListActive = ref<boolean>(props.list.active)
-  const isFullList = ref<boolean | null>(props.list.full)
+  const isFullList = ref<boolean | null>(null)
 
-  const toggleAccordion = () => {
+  const toggleAccordion = (): void => {
     isOpen.value = !isOpen.value
     store.setOpenOfList(isOpen.value, props.list.name)
   }
 
-  function handleInputListChecked() {
-    isInputListActive.value = !isInputListActive.value
-    store.toggleListCheckbox(isInputListActive.value, props.list.name)
+  function handleInputListChecked(): void {
+    const { allItemsActive, allItemsInactive } = determineActivityOfItems()
+
+    if (allItemsActive || allItemsInactive) {
+      store.toggleListCheckbox(props.list.name)
+    } else {
+      console.log(props.list.active)
+      // store.setActiveList(props.list.name)
+      store.toggleActiveItems(props.list.name)
+
+      isFullList.value = null
+      console.log(props.list.active)
+    }
   }
 
-  function handle(value: boolean) {
-    isFullList.value = value
+  function determineActivityOfItems(): {allItemsActive: boolean, allItemsInactive: boolean} {
+    const allItemsActive = props.list.items.every(item => item.active)
+    const allItemsInactive = props.list.items.every(item => !item.active)
+
+    return {
+      allItemsActive,
+      allItemsInactive
+    }
+  }
+
+  function checkItems() {
+    const { allItemsActive, allItemsInactive } = determineActivityOfItems()
+
+    allItemsActive
+      ? isFullList.value = true
+      : isFullList.value = false
+
+    if (allItemsInactive) {
+      store.toggleActiveList(props.list.name)
+      isFullList.value = null
+    }
   }
 </script>
 
@@ -50,7 +78,9 @@
         :checked="list.active"
         @input="handleInputListChecked"
         class="list-left__input-checkbox"
+        :class="{'list-left__input-checkbox_type_point': isFullList === false}"
       >
+
       <h3 class="list-left__title">{{ list.name }}</h3>
     </div>
 
@@ -61,7 +91,7 @@
         :item="item"
         :list="list"
         :isFullList="isFullList"
-        @is-full="handle"
+        @check-list-items="checkItems"
       />
     </div>
   </div>

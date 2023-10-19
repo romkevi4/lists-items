@@ -32,8 +32,7 @@ export function setDataOfLists(): IList[] {
       name: `List ${i}`,
       items: [],
       active: false,
-      opened: false,
-      full: null
+      opened: false
     }
 
     lists.push(dataOfLists)
