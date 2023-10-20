@@ -1,13 +1,12 @@
 <script setup lang="ts">
-  import { defineProps, defineEmits } from 'vue'
+  import { defineProps, defineEmits, nextTick } from 'vue'
 
   import { useGlobalStore } from '../../store/store'
   import { IItem, IList } from '../../models'
 
   interface PropsItemLeft {
     item: IItem,
-    list: IList,
-    isFullList: boolean | null
+    list: IList
   }
 
   const store = useGlobalStore()
@@ -25,14 +24,12 @@
   }
 
   function handleInputItemChecked() {
-    if (props.list.active) {
-      store.toggleItemCheckbox(props.list.name, props.item.name)
-      emits('check-list-items')
-    } else {
-      store.toggleActiveList(props.list.name)
-      store.toggleItemCheckbox(props.list.name, props.item.name)
-      emits('check-list-items')
-    }
+    console.log(`list.active:  ${props.list.active}`)
+    !props.list.active && store.toggleActiveList(props.list.name)
+
+    store.toggleItemCheckbox(props.list.name, props.item.name)
+    emits('check-list-items')
+    console.log(`list.active:  ${props.list.active}`)
   }
 </script>
 
@@ -108,10 +105,6 @@
     content: '\2713';
   }
 
-  .item-left__input-checkbox:hover {
-    cursor: pointer;
-  }
-
   .item-left__name {
     margin: 0;
   }
@@ -143,5 +136,10 @@
 
   .item-left__input-color::-webkit-color-swatch {
     border: none;
+  }
+
+  .item-left__input-checkbox:hover,
+  .item-left__input-color:hover {
+    cursor: pointer;
   }
 </style>

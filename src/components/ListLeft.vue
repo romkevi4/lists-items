@@ -29,12 +29,13 @@
     if (allItemsActive || allItemsInactive) {
       store.toggleListCheckbox(props.list.name)
     } else {
-      console.log(props.list.active)
+      console.log('два')
+      // console.log(props.list.active)
       // store.setActiveList(props.list.name)
-      store.toggleActiveItems(props.list.name)
-
       isFullList.value = null
-      console.log(props.list.active)
+      store.toggleActiveAllItems(props.list.name)
+      console.log(`list.active:  ${props.list.active}`)
+      console.log(`isFullList:  ${isFullList.value}`)
     }
   }
 
@@ -51,11 +52,12 @@
   function checkItems() {
     const { allItemsActive, allItemsInactive } = determineActivityOfItems()
 
-    allItemsActive
-      ? isFullList.value = true
-      : isFullList.value = false
-
-    if (allItemsInactive) {
+    if (!allItemsActive && !allItemsInactive) {
+      // !props.list.active && store.toggleActiveList(props.list.name)
+      isFullList.value = false
+    } else if (allItemsActive) {
+      isFullList.value = true
+    } else if (allItemsInactive) {
       store.toggleActiveList(props.list.name)
       isFullList.value = null
     }
@@ -90,7 +92,6 @@
         :key="index"
         :item="item"
         :list="list"
-        :isFullList="isFullList"
         @check-list-items="checkItems"
       />
     </div>
@@ -175,9 +176,8 @@
     align-items: start;
   }
 
-  .list-left:hover,
-  .list-left__input-checkbox:hover,
-  .list-left__input-color:hover {
+  .list-left__icon-arrow:hover,
+  .list-left__input-checkbox:hover {
     cursor: pointer;
   }
 </style>

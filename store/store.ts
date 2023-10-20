@@ -60,7 +60,7 @@ export const useGlobalStore = defineStore('store', {
         }
       })
     },
-    toggleActiveItems(currentListName: string) {
+    toggleActiveAllItems(currentListName: string) {
       this.currentLists.map((list) => {
         if (list.name === currentListName) {
           list.items.map((item) => {
