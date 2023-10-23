@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { defineProps, defineEmits, nextTick } from 'vue'
+  import { defineProps, defineEmits } from 'vue'
 
   import { useGlobalStore } from '../../store/store'
   import { IItem, IList } from '../../models'
@@ -13,23 +13,20 @@
   const props = defineProps<PropsItemLeft>()
   const emits = defineEmits(['check-list-items'])
 
-  function handleInputAmount(evt: Event) {
+  function handleInputAmount(evt: Event): void {
     const inputElement = evt.target as HTMLInputElement
     store.setAmountOfLeftItem(+inputElement.value, props.list.name, props.item.name)
   }
 
-  function handleInputColor(evt: Event) {
+  function handleInputColor(evt: Event): void {
     const inputElement = evt.target as HTMLInputElement
     store.setColorOfItem(inputElement.value, props.list.name, props.item.name)
   }
 
-  function handleInputItemChecked() {
-    console.log(`list.active:  ${props.list.active}`)
+  function handleInputItemChecked(): void {
     !props.list.active && store.toggleActiveList(props.list.name)
-
     store.toggleItemCheckbox(props.list.name, props.item.name)
     emits('check-list-items')
-    console.log(`list.active:  ${props.list.active}`)
   }
 </script>
 

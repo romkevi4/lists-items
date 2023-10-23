@@ -29,13 +29,8 @@
     if (allItemsActive || allItemsInactive) {
       store.toggleListCheckbox(props.list.name)
     } else {
-      console.log('два')
-      // console.log(props.list.active)
-      // store.setActiveList(props.list.name)
       isFullList.value = null
-      store.toggleActiveAllItems(props.list.name)
-      console.log(`list.active:  ${props.list.active}`)
-      console.log(`isFullList:  ${isFullList.value}`)
+      store.activateAllItems(props.list.name)
     }
   }
 
@@ -53,7 +48,6 @@
     const { allItemsActive, allItemsInactive } = determineActivityOfItems()
 
     if (!allItemsActive && !allItemsInactive) {
-      // !props.list.active && store.toggleActiveList(props.list.name)
       isFullList.value = false
     } else if (allItemsActive) {
       isFullList.value = true

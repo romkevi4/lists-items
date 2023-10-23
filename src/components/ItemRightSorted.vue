@@ -4,13 +4,13 @@
   import { useGlobalStore } from '../../store/store'
   import { IItem, IList } from '../../models'
 
-  interface PropsItemRight {
+  interface PropsItemRightSorted {
     item: IItem,
     list: IList
   }
 
   const store = useGlobalStore()
-  const props = defineProps<PropsItemRight>()
+  const props = defineProps<PropsItemRightSorted>()
 
   function changeAmountOfItem() {
     store.setAmountOfRightItem(props.list.name, props.item.name)
@@ -18,19 +18,19 @@
 </script>
 
 <template>
-  <div class="item-right">
+  <div class="item-right-sorted">
     <div
       v-for="index in item.amount"
       :key="index"
       :style="{backgroundColor: item.color}"
       @click="changeAmountOfItem()"
-      class="item-right__element">
+      class="item-right-sorted__element">
     </div>
   </div>
 </template>
 
 <style scoped>
-  .item-right {
+  .item-right-sorted {
     padding-top: 1rem;
     width: 100%;
     display: flex;
@@ -40,22 +40,22 @@
     row-gap: .2rem;
   }
 
-  .item-right:first-of-type {
+  .item-right-sorted:first-of-type {
     padding-top: 0;
   }
 
-  .item-right__element {
+  .item-right-sorted__element {
     margin-right: .2rem;
     width: 1rem;
     height: 1rem;
     border-radius: .2rem;
   }
 
-  .item-right__element:last-of-type {
+  .item-right-sorted__element:last-of-type {
     margin-right: 0;
   }
 
-  .item-right__element:hover {
+  .item-right-sorted__element:hover {
     cursor: pointer;
   }
 </style>

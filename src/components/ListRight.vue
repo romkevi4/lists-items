@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  import { defineProps } from 'vue'
+  import { ref, defineProps } from 'vue'
 
-  import ItemRight from '@/components/ItemRight.vue'
+  import ItemRightSorted from '@/components/ItemRightSorted.vue'
+  import ItemRightMixed from '@/components/ItemRightMixed.vue'
+
   import { IList } from '../../models'
 
   interface PropsListRight {
@@ -9,20 +11,30 @@
   }
 
   defineProps<PropsListRight>()
+
+  const isSorted= ref<boolean>(true)
+
+  const toggleSorting = () => isSorted.value = !isSorted.value
 </script>
 
 <template>
   <div v-if="list.opened" class="list-right">
     <div class="list-right__box">
       <h3 class="list-right__title">{{ list.name }}</h3>
-      <button type="button" class="list-right__btn-sort">Перемешать</button>
+      <button @click="toggleSorting" type="button" class="list-right__btn-sort">{{ isSorted ? 'Перемешать' : 'Сортировать'}}</button>
     </div>
 
-    <div class="list-right__items">
-      <item-right
+    <div v-if="isSorted" class="list-right__items">
+      <item-right-sorted
         v-for="(item, index) in list.items"
         :key="index"
         :item="item"
+        :list="list"
+      />
+    </div>
+
+    <div v-else class="list-right__items">
+      <item-right-mixed
         :list="list"
       />
     </div>
