@@ -4,29 +4,29 @@ import { IList } from '../models'
 export const useGlobalStore = defineStore('store', {
   state: () => ({
     currentLists: [] as IList[],
-    randomColorsOfItems: [] as string[]
+    currentColorsOfItems: [] as string[][],
   }),
   actions: {
     setCurrentLists(data: IList[]) {
       this.currentLists = data
-    },
-    setRandomColors() {
-      const colors: string[] = []
 
-      this.currentLists.forEach((list) => {
-        list.items.forEach((item) => {
-          for (let i = 0; i <= item.amount; i++) {
-            colors.push(item.color)
-          }
+      function getColors() {
+        const colors: string[][] = [[]]
+
+        data.forEach((list, index) => {
+          list.items.forEach((item) => {
+            for (let i = 0; i < item.amount; i++) {
+              colors[index].push(item.color)
+            }
+          })
         })
-      })
 
-      for (let i = colors.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [colors[i], colors[j]] = [colors[j], colors[i]];
+        return colors
       }
 
-      this.randomColorsOfItems = [...colors]
+      this.currentColorsOfItems = getColors()
+
+      console.log(getColors())
     },
     setOpenOfList(isOpen: boolean, currentListName: string) {
       this.currentLists.map((list) => list.name === currentListName && (list.opened = isOpen))
@@ -38,10 +38,17 @@ export const useGlobalStore = defineStore('store', {
         })
       })
     },
-    setAmountOfRightItem(currentListName: string, currentItemName: string) {
+    setAmountOfRightItemSorted(currentListName: string, currentItemName: string) {
       this.currentLists.map((list) => {
         list.name === currentListName && list.items.map((item) => {
           item.name === currentItemName && item.amount--
+        })
+      })
+    },
+    setAmountOfRightItemMixed(currentColor: string, currentListName: string,) {
+      this.currentLists.map((list) => {
+        list.name === currentListName && list.items.map((item) => {
+          item.color === currentColor && item.amount--
         })
       })
     },
@@ -52,6 +59,9 @@ export const useGlobalStore = defineStore('store', {
         })
       })
     },
+    // setRandomColorsOfItems() {
+    //
+    // },
     toggleListCheckbox(currentListName: string) {
       this.currentLists.map((list) => {
         if (list.name === currentListName) {
@@ -88,5 +98,6 @@ export const useGlobalStore = defineStore('store', {
         }
       })
     },
+
   }
 })

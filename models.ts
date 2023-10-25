@@ -5,11 +5,6 @@ interface IItem {
   active: boolean,
 }
 
-interface IItemMixed {
-  amount: number,
-  color: string,
-}
-
 interface IList {
   name: string,
   items: IItem[],
@@ -19,6 +14,5 @@ interface IList {
 
 export type {
   IList,
-  IItem,
-  IItemMixed
+  IItem
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, defineProps } from 'vue'
+  import { ref, defineProps, onMounted } from 'vue'
 
   import { useGlobalStore } from '../../store/store'
   import { IList } from '../../models'
@@ -13,11 +13,11 @@
 
   const amountOfItems = ref<number>(0)
   const colorsOfItems = ref<string[]>([])
-  const randomColorsArr = ref<string[]>(mixColorsOfItems())
+  const randomColorsArr = ref<string[]>([])
 
   function getDataOfItems() {
     props.list.items.forEach((item) => {
-      for (let i = 0; i <= item.amount; i++) {
+      for (let i = 0; i < item.amount; i++) {
         colorsOfItems.value.push(item.color)
       }
 
@@ -25,30 +25,37 @@
     })
   }
 
-  function mixColorsOfItems(): string[] {
-    getDataOfItems()
-    const randomColorsArr = [...colorsOfItems.value]
+  // function changeCurrentColorOfItems() {
+  //
+  // }
 
-    for (let i = randomColorsArr.length - 1; i > 0; i--) {
+  function mixColorsOfItems(): void {
+    randomColorsArr.value = [...colorsOfItems.value]
+
+    for (let i = randomColorsArr.value.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [randomColorsArr[i], randomColorsArr[j]] = [randomColorsArr[j], randomColorsArr[i]];
+      [randomColorsArr.value[i], randomColorsArr.value[j]] = [randomColorsArr.value[j], randomColorsArr.value[i]]
     }
-
-    return  randomColorsArr
   }
 
-  function changeAmountOfItem() {
-    // store.setAmountOfRightItem(props.list.name, props.item.name)
+  function changeAmountOfItem(color: string, index: number) {
+    randomColorsArr.value.splice(index, 1)
+    store.setAmountOfRightItemMixed(color, props.list.name)
   }
+
+  onMounted(() => {
+    getDataOfItems()
+    mixColorsOfItems()
+  })
 </script>
 
 <template>
   <div class="item-right-mixed">
     <div
-      v-for="index in amountOfItems"
+      v-for="(color, index) in randomColorsArr"
       :key="index"
-      :style="{backgroundColor: randomColorsArr[index]}"
-      @click="changeAmountOfItem()"
+      :style="{backgroundColor: color}"
+      @click="changeAmountOfItem(color, index)"
       class="item-right-mixed__element">
     </div>
   </div>

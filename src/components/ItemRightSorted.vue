@@ -13,12 +13,12 @@
   const props = defineProps<PropsItemRightSorted>()
 
   function changeAmountOfItem() {
-    store.setAmountOfRightItem(props.list.name, props.item.name)
+    store.setAmountOfRightItemSorted(props.list.name, props.item.name)
   }
 </script>
 
 <template>
-  <div class="item-right-sorted">
+  <div v-if="item.amount > 0" class="item-right-sorted">
     <div
       v-for="index in item.amount"
       :key="index"
@@ -31,7 +31,7 @@
 
 <style scoped>
   .item-right-sorted {
-    padding-top: 1rem;
+    padding-top: .6rem;
     width: 100%;
     display: flex;
     align-items: center;
