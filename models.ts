@@ -10,6 +10,7 @@ interface IList {
   items: IItem[],
   active: boolean,
   opened: boolean,
+  colors: string[],
 }
 
 export type {

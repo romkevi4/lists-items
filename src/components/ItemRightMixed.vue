@@ -12,14 +12,14 @@
   const props = defineProps<PropsItemRightMixed>()
 
   const amountOfItems = ref<number>(0)
-  const colorsOfItems = ref<string[]>([])
+  const colorsOfItems = ref<string[]>(props.list.colors)
   const randomColorsArr = ref<string[]>([])
 
   function getDataOfItems() {
     props.list.items.forEach((item) => {
-      for (let i = 0; i < item.amount; i++) {
-        colorsOfItems.value.push(item.color)
-      }
+      // for (let i = 0; i < item.amount; i++) {
+      //   colorsOfItems.value.push(item.color)
+      // }
 
       amountOfItems.value = amountOfItems.value + item.amount
     })
@@ -52,7 +52,7 @@
 <template>
   <div class="item-right-mixed">
     <div
-      v-for="(color, index) in randomColorsArr"
+      v-for="(color, index) in list.colors"
       :key="index"
       :style="{backgroundColor: color}"
       @click="changeAmountOfItem(color, index)"

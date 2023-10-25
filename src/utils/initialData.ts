@@ -32,7 +32,8 @@ export function setDataOfLists(): IList[] {
       name: `List ${i}`,
       items: [],
       active: false,
-      opened: false
+      opened: false,
+      colors: [],
     }
 
     lists.push(dataOfLists)
@@ -41,18 +42,22 @@ export function setDataOfLists(): IList[] {
   lists.forEach((list: IList) => {
     const randomItemsAmount: number = setRandomElement(MIN_ITEM, MAX_ITEM)
 
-    for (let y = 1; y <= randomItemsAmount; y++) {
+    for (let j = 1; j <= randomItemsAmount; j++) {
       const randomColor = setRandomColorOfItem()
       const randomAmountOfItem = setRandomElement(MIN_AMOUNT_OF_ITEM, MAX_AMOUNT_OF_ITEM)
 
       const dataOfItem = {
-        name: `Item ${y}`,
+        name: `Item ${j}`,
         amount: randomAmountOfItem,
         color: randomColor,
         active: false
       }
 
-      list.items.push(dataOfItem);
+      for (let k = 1; k <= randomAmountOfItem; k++) {
+        list.colors.push(randomColor)
+      }
+
+      list.items.push(dataOfItem)
     }
   })
 
