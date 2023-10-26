@@ -12,8 +12,11 @@
   const store = useGlobalStore()
   const props = defineProps<PropsItemRightSorted>()
 
-  function changeAmountOfItem() {
-    store.setAmountOfRightItemSorted(props.list.name, props.item.name)
+  function changeAmountOfItem(color: string) {
+    // console.log(props.list.colors)
+    store.setAmountOfRightItemSorted(color, props.list.name, props.item.name)
+    // store.controlColorOfItem(props.item.color, props.list.name, props.item.name)
+    // console.log(props.list.colors)
   }
 </script>
 
@@ -23,7 +26,7 @@
       v-for="index in item.amount"
       :key="index"
       :style="{backgroundColor: item.color}"
-      @click="changeAmountOfItem()"
+      @click="changeAmountOfItem(item.color)"
       class="item-right-sorted__element">
     </div>
   </div>

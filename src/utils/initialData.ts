@@ -40,9 +40,9 @@ export function setDataOfLists(): IList[] {
   }
 
   lists.forEach((list: IList) => {
-    const randomItemsAmount: number = setRandomElement(MIN_ITEM, MAX_ITEM)
+    const randomItems: number = setRandomElement(MIN_ITEM, MAX_ITEM)
 
-    for (let j = 1; j <= randomItemsAmount; j++) {
+    for (let j = 1; j <= randomItems; j++) {
       const randomColor = setRandomColorOfItem()
       const randomAmountOfItem = setRandomElement(MIN_AMOUNT_OF_ITEM, MAX_AMOUNT_OF_ITEM)
 

@@ -20,7 +20,7 @@
 
   function handleInputColor(evt: Event): void {
     const inputElement = evt.target as HTMLInputElement
-    store.setColorOfItem(inputElement.value, props.list.name, props.item.name)
+    store.controlColorOfItem(inputElement.value, props.list.name, props.item.name)
   }
 
   function handleInputItemChecked(): void {
