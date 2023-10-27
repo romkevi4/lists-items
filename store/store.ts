@@ -5,6 +5,7 @@ export const useGlobalStore = defineStore('store', {
   state: () => ({
     currentLists: [] as IList[],
     prevColorOfItem: '' as string,
+    randomColors: [] as string[],
   }),
   actions: {
     setCurrentLists(data: IList[]) {
@@ -20,6 +21,7 @@ export const useGlobalStore = defineStore('store', {
             if (item.name === currentItemName) {
               item.amount = currentValueOfItem
               this._updateArrayValueToCount(list.colors, currentValueOfItem, item.color)
+              this._updateArrayValueToCount(this.randomColors, currentValueOfItem, item.color)
             }
           })
         }
@@ -43,6 +45,7 @@ export const useGlobalStore = defineStore('store', {
               this.prevColorOfItem = item.color
               item.color = currentColorOfItem
               this._changeArrayWithColors(list.colors, this.prevColorOfItem, currentColorOfItem)
+              this._changeArrayWithColors(this.randomColors, this.prevColorOfItem, currentColorOfItem)
               this.prevColorOfItem = ''
             }
           })
@@ -89,6 +92,14 @@ export const useGlobalStore = defineStore('store', {
       const index = arr.indexOf(currentColor)
       index !== -1 && arr.splice(index, 1)
     },
+    mixColorsOfItems(currentColors: string[]) {
+      this.randomColors = [...currentColors]
+
+      for (let i = this.randomColors.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this.randomColors[i], this.randomColors[j]] = [this.randomColors[j], this.randomColors[i]]
+      }
+    },
     _changeArrayWithColors(arr: string[], prevValue: string, currentColor: string) {
       for (let i = 0; i < arr.length; i++) {
         arr[i] === prevValue && (arr[i] = currentColor)
@@ -109,6 +120,8 @@ export const useGlobalStore = defineStore('store', {
           count++
         }
       }
+
+      this.mixColorsOfItems(arr)
     },
   },
 })

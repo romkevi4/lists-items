@@ -13,36 +13,26 @@
 
   const amountOfItems = ref<number>(0)
   const colorsOfItems = ref<string[]>(props.list.colors)
-  const randomColorsArr = ref<string[]>([])
 
   function getDataOfItems() {
     props.list.items.forEach((item) => amountOfItems.value = amountOfItems.value + item.amount)
   }
 
-  function mixColorsOfItems(): void {
-    randomColorsArr.value = [...colorsOfItems.value]
-
-    for (let i = randomColorsArr.value.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [randomColorsArr.value[i], randomColorsArr.value[j]] = [randomColorsArr.value[j], randomColorsArr.value[i]]
-    }
-  }
-
   function changeAmountOfItem(color: string) {
     store.setAmountOfRightItem(color, props.list.name)
-    store.removeColorInArrayWithColors(randomColorsArr.value, color)
+    store.removeColorInArrayWithColors(store.randomColors, color)
   }
 
   onMounted(() => {
     getDataOfItems()
-    mixColorsOfItems()
+    store.mixColorsOfItems(colorsOfItems.value)
   })
 </script>
 
 <template>
   <div class="item-right-mixed">
     <div
-      v-for="(color, index) in randomColorsArr"
+      v-for="(color, index) in store.randomColors"
       :key="index"
       :style="{backgroundColor: color}"
       @click="changeAmountOfItem(color)"
