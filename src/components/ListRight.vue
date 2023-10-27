@@ -100,17 +100,4 @@
     margin-top: .5rem;
     width: 100%;
   }
-
-  .list-right__header {
-    padding: .5rem;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    transition: background-color .2s;
-  }
-
-  .list-left__header:hover {
-    background-color: #DCDCDC;
-    border-radius: .2rem;
-  }
 </style>

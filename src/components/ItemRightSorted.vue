@@ -13,10 +13,7 @@
   const props = defineProps<PropsItemRightSorted>()
 
   function changeAmountOfItem(color: string) {
-    // console.log(props.list.colors)
-    store.setAmountOfRightItemSorted(color, props.list.name, props.item.name)
-    // store.controlColorOfItem(props.item.color, props.list.name, props.item.name)
-    // console.log(props.list.colors)
+    store.setAmountOfRightItem(color, props.list.name)
   }
 </script>
 
